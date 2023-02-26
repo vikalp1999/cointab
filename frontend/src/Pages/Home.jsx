@@ -60,7 +60,8 @@ export const Home = () => {
         }, 1000)
     }
 
-  
+    const RenderApi= process.env.RENDERAPI;
+    console.log(RenderApi)
   return (
     <>
     {
