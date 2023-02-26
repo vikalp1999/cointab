@@ -7,19 +7,20 @@ import { deleteAction, deleteDone } from '../Redux/DeleteData/delete.action';
 import { AlertCom } from '../Components/Alert';
 import {Loading} from "../Components/Loading"
 import { Link } from 'react-router-dom';
+
  
 let Local= +(localStorage.getItem("count"))||0
 export const Home = () => {
     const [state,setState]=useState(false);
     const [count,setCount]=useState(Local);
-   
+   //get fetch from store//
     const fetch= useSelector((store)=>store.fetch);
-
+ //get userDelete from store//
     const Userdelete = useSelector((store)=>store.delete);
 
     const dispatch=useDispatch();
 
-
+  //function for handling fetch type//
     const handleFetch=()=>{
         if(fetch.Loading){
             setState(true)
@@ -31,7 +32,7 @@ export const Home = () => {
         })
         dispatch(fetchAction())
     }
-
+// function for handling delete status//
     const handleDelete=()=>{
         if(count===0){
             alert("Database is Empty");
@@ -46,22 +47,22 @@ export const Home = () => {
             return 
         }
     }
-
+// condition if we fetch the data//
     if(fetch.Success){
         setTimeout(() => {
             dispatch(fetchDone())
             setState(false);
         }, 1000)
     }
-
+// condition if we delete the data//
     if(Userdelete.Success){
         setTimeout(() => {
             dispatch(deleteDone())
         }, 1000)
     }
 
-    const RenderApi= process.env.RENDERAPI;
-    console.log(RenderApi)
+   
+   
   return (
     <>
     {
@@ -73,10 +74,10 @@ export const Home = () => {
     {
     (fetch.Success | Userdelete.Success) ? <AlertCom status='success' message="Task Completed" /> : ""
     }
-   
+   {/* fetch delete and user get button  */}
       <Flex w="100vw" h="100vh" justifyContent={"center"} alignItems={"center"} backgroundColor={"black"} 
        flexDirection={{sm:"column",base:"column",lg:"row"}} >
-        <Tooltip placement='top-start' m="5px" label='Fetch the Data'>
+        <Tooltip placement='top-start'  label='Fetch the Data'>
     <Button fontSize="20px"  p="40px 70px" m="20px" backgroundColor='orange'
       _hover={{
         background: "blue",
@@ -86,7 +87,7 @@ export const Home = () => {
     Fetch Users {count}
     </Button>
     </Tooltip>
-    <Tooltip placement='top-start' m="5px" label='Delete the Data'>
+    <Tooltip placement='top-start'  label='Delete the Data'>
     <Button fontSize="20px"  p="40px 70px" m="20px" backgroundColor='orange'
      _hover={{
         background: "red",
@@ -95,7 +96,7 @@ export const Home = () => {
     Delete Users
     </Button>
     </Tooltip>
-    <Tooltip placement='top-start' m="5px" label='Get the User Table'>
+    <Tooltip placement='top-start' label='Get the User Table'>
      <Link to="/users">  
     <Button fontSize="20px"  _hover={{
         background: "green",

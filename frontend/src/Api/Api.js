@@ -1,0 +1,1 @@
+export const RENDERAPI="https://cointab-ia3r.onrender.com/cointab"

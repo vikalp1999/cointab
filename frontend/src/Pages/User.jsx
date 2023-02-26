@@ -12,23 +12,25 @@ export const User = () => {
     const [page, setPage] = useState(1);
   const [gender, setGender] = useState("undefined");
   const [country, setCountry] = useState("undefined");
-
+ // get user from store//
   const User= useSelector((store)=>store.user)
    
   const dispatch= useDispatch();
 
+  //function for invoke userAction function//
   const getUser=(page, gender, country)=>{
-    
      dispatch(userAction(page,gender,country))
     
   }
   
-
+//useEffect for conditional rendering"
   useEffect(()=>{
     getUser(page,gender,country)
   },[page,gender,country]);
   console.log(User.userData)
-  if(User.userData.length==0){
+
+  // if the userLoading false and data is empty then show alert//
+  if(!User.Loading&&User.userData.length==0){
     return (
         <>
         <AlertCom status={"error"} message={"Database is Empty"} />
@@ -39,7 +41,7 @@ export const User = () => {
         </>
     )
   }
-
+ 
   return (
     <>
      <Flex justifyContent={"center"} gridGap="20px" backgroundColor={"black"}>
@@ -55,7 +57,7 @@ export const User = () => {
           }
         </Select>
       </Flex>
-
+       {/* Table */}
       <TableContainer backgroundColor="black">
         <Table backgroundColor="white" w="80%" m="20px auto" variant='striped' >
           <Thead>
@@ -94,11 +96,11 @@ export const User = () => {
           </Tbody>
         </Table>
       </TableContainer>
-
+       {/* Pagination */}
       <Center backgroundColor={"black"} >
-        <Button m="10px" isDisabled={page == 1} onClick={() => { setPage(page - 1) }} colorScheme='purple'>Prev</Button>
-        <Button m="10px" colorScheme='purple'>{page}</Button>
-        <Button m="10px" isDisabled={User.userData.length < 10} onClick={() => { setPage(page + 1) }} colorScheme='purple'>Next</Button>
+        <Button m="10px" isDisabled={page == 1} onClick={() => { setPage(page - 1) }} colorScheme='orange'>Prev</Button>
+        <Button m="10px" colorScheme='orange'>{page}</Button>
+        <Button m="10px" isDisabled={User.userData.length < 10} onClick={() => { setPage(page + 1) }} colorScheme='orange'>Next</Button>
       </Center>
     </>
   )
