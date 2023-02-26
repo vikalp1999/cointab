@@ -21,9 +21,18 @@ exports.fetchData=async(req,res)=>{
 // get the data and pagination //
 
 exports.getData=async(req,res)=>{
-    let {filter, limit, page}= req.body;
+    const limit = 10;
+    let { page = 1, gender, country } = req.query;
+    let filter = {};
+    if (gender != "undefined" && !!gender) {
+        filter.gender = gender;
+    }
+    if (country != "undefined" && !!country) {
+        filter["location.country"] = country
+    }
     try{
         let data = await collection.find(filter).limit(limit).skip((page - 1) * limit);
+        
         let result= await data.toArray();
         return res.status(200).send({status:true,message:result})
 
